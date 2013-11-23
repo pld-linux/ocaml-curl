@@ -1,18 +1,18 @@
 #
 # Conditional build:
-%bcond_without	opt		# build opt
+%bcond_with	opt		# build opt
 
 %define debug_package %{nil}
 %define	pkgname	ocurl
 Summary:	OCaml Curl library (ocurl)
 Name:		ocaml-%{pkgname}
-Version:	0.5.3
+Version:	0.6.0
 Release:	1
 License:	MIT
 Group:		Libraries
-Source0:	http://downloads.sourceforge.net/ocurl/%{pkgname}-%{version}.tgz
-Patch1:		ocurl-0.5.3-include-o-cmx.patch
-URL:		http://sourceforge.net/projects/ocurl
+Source0:	https://forge.ocamlcore.org/frs/download.php/1238/%{pkgname}-%{version}.tar.gz
+# Source0-md5:	21575e86b390c6c182a8dee42e8db1f3
+URL:		http://ocurl.forge.ocamlcore.org/
 BuildRequires:	curl-devel >= 7.12.0
 BuildRequires:	gawk
 BuildRequires:	ocaml >= 3.10.0-7
@@ -27,28 +27,20 @@ BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 The Ocaml Curl Library (Ocurl) is an interface library for the
 programming language Ocaml to the networking library libcurl.
 
-%package        devel
+%package devel
 Summary:	Development files for %{name}
 Group:		Development/Libraries
 Requires:	%{name} = %{version}-%{release}
 
-%description    devel
+%description devel
 The %{name}-devel package contains libraries and signature files for
 developing applications that use %{name}.
 
 %prep
-%setup -qc
-mv ocurl/* .
-%patch1 -p1
-
-# Files in the archive have spurious +x mode.
-find -type f | xargs chmod 0644
-chmod 0755 configure install-sh
+%setup -q -n %{pkgname}-%{version}
 
 %build
-%configure \
-	--with-findlib
-
+%configure
 %{__make} -j1 all \
 %if %{with opt}
 	OCBYTE="ocamlc.opt -g" \
@@ -75,6 +67,8 @@ rm -rf $RPM_BUILD_ROOT
 %defattr(644,root,root,755)
 %doc COPYING
 %{_libdir}/ocaml/curl
+%attr(755,root,root) %{_libdir}/ocaml/stublibs/dllcurl-helper.so
+%{_libdir}/ocaml/stublibs/dllcurl-helper.so.owner
 %if %{with opt}
 %exclude %{_libdir}/ocaml/curl/*.a
 %exclude %{_libdir}/ocaml/curl/*.o
@@ -93,3 +87,4 @@ rm -rf $RPM_BUILD_ROOT
 %{_libdir}/ocaml/curl/*.cmxa
 %endif
 %{_libdir}/ocaml/curl/*.mli
+
