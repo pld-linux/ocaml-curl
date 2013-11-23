@@ -3,23 +3,24 @@
 %bcond_without	opt		# build opt
 
 %define debug_package %{nil}
+%define	pkgname	ocurl
 Summary:	OCaml Curl library (ocurl)
-Name:		ocaml-curl
+Name:		ocaml-%{pkgname}
 Version:	0.5.3
-Release:	0.1
+Release:	1
 License:	MIT
 Group:		Libraries
-Source0:	http://downloads.sourceforge.net/ocurl/ocurl-%{version}.tgz
+Source0:	http://downloads.sourceforge.net/ocurl/%{pkgname}-%{version}.tgz
 Patch1:		ocurl-0.5.3-include-o-cmx.patch
 URL:		http://sourceforge.net/projects/ocurl
 BuildRequires:	curl-devel >= 7.12.0
 BuildRequires:	gawk
 BuildRequires:	ocaml >= 3.10.0-7
 BuildRequires:	ocaml-findlib-devel
-ExcludeArch:	sparc64 s390 s390x
-# Explicitly require Curl (fixes #711261). Since ocaml-curl uses
+# Explicitly require Curl (fixes RHBZ#711261). Since ocaml-curl uses
 # -custom rather than ocamlmklib, automatic detection is infeasible.
 Requires:	curl-devel >= 7.12.0
+ExcludeArch:	sparc64 s390 s390x
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
