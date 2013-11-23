@@ -3,14 +3,14 @@
 %bcond_with	opt		# build opt
 
 %define debug_package %{nil}
-%define	pkgname	ocurl
+%define	pkgname	curl
 Summary:	OCaml Curl library (ocurl)
 Name:		ocaml-%{pkgname}
 Version:	0.6.0
 Release:	1
 License:	MIT
 Group:		Libraries
-Source0:	https://forge.ocamlcore.org/frs/download.php/1238/%{pkgname}-%{version}.tar.gz
+Source0:	https://forge.ocamlcore.org/frs/download.php/1238/ocurl-%{version}.tar.gz
 # Source0-md5:	21575e86b390c6c182a8dee42e8db1f3
 URL:		http://ocurl.forge.ocamlcore.org/
 BuildRequires:	curl-devel >= 7.12.0
@@ -37,7 +37,7 @@ The %{name}-devel package contains libraries and signature files for
 developing applications that use %{name}.
 
 %prep
-%setup -q -n %{pkgname}-%{version}
+%setup -q -n ocurl-%{version}
 
 %build
 %configure
