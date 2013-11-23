@@ -57,6 +57,16 @@ install -d $OCAMLFIND_DESTDIR $OCAMLFIND_DESTDIR/stublibs
 # Install curl.mli
 cp -p curl.mli $OCAMLFIND_DESTDIR/curl
 
+install -d $RPM_BUILD_ROOT%{_libdir}/ocaml/site-lib/curl
+cat > $RPM_BUILD_ROOT%{_libdir}/ocaml/site-lib/curl/META <<EOF
+requires = ""
+version = "%{version}"
+directory = "+curl"
+archive(byte) = "curl.cma"
+archive(native) = "curl.cmxa"
+linkopts = ""
+EOF
+
 # Make clean in the examples dir so our docs don't contain binaries.
 %{__make} -C examples clean
 
@@ -87,4 +97,4 @@ rm -rf $RPM_BUILD_ROOT
 %{_libdir}/ocaml/curl/*.cmxa
 %endif
 %{_libdir}/ocaml/curl/*.mli
-
+%{_libdir}/ocaml/site-lib/curl
