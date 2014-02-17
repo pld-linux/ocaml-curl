@@ -10,8 +10,8 @@ Version:	0.6.1
 Release:	1
 License:	MIT
 Group:		Libraries
-Source0:	https://forge.ocamlcore.org/frs/download.php/1238/ocurl-%{version}.tar.gz
-# Source0-md5:	21575e86b390c6c182a8dee42e8db1f3
+Source0:	https://forge.ocamlcore.org/frs/download.php/1374/ocurl-%{version}.tar.gz
+# Source0-md5:	637336f41eb047b246e30a4c3caddc94
 URL:		http://ocurl.forge.ocamlcore.org/
 BuildRequires:	curl-devel >= 7.12.0
 BuildRequires:	gawk
