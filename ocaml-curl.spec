@@ -6,7 +6,7 @@
 %define	pkgname	curl
 Summary:	OCaml Curl library (ocurl)
 Name:		ocaml-%{pkgname}
-Version:	0.6.0
+Version:	0.6.1
 Release:	1
 License:	MIT
 Group:		Libraries
