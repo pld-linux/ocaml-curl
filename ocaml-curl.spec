@@ -6,12 +6,12 @@
 %define	pkgname	curl
 Summary:	OCaml Curl library (ocurl)
 Name:		ocaml-%{pkgname}
-Version:	0.6.1
+Version:	0.7.1
 Release:	1
 License:	MIT
 Group:		Libraries
-Source0:	https://forge.ocamlcore.org/frs/download.php/1374/ocurl-%{version}.tar.gz
-# Source0-md5:	637336f41eb047b246e30a4c3caddc94
+Source0:	https://forge.ocamlcore.org/frs/download.php/1400/ocurl-%{version}.tar.gz
+# Source0-md5:	d138fd78538ae3bd008d6e9c2993d240
 URL:		http://ocurl.forge.ocamlcore.org/
 BuildRequires:	curl-devel >= 7.12.0
 BuildRequires:	gawk
