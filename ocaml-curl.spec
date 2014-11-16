@@ -7,7 +7,7 @@
 Summary:	OCaml Curl library (ocurl)
 Name:		ocaml-%{pkgname}
 Version:	0.7.1
-Release:	1
+Release:	2
 License:	MIT
 Group:		Libraries
 Source0:	https://forge.ocamlcore.org/frs/download.php/1400/ocurl-%{version}.tar.gz
@@ -20,6 +20,7 @@ BuildRequires:	ocaml-findlib-devel
 # Explicitly require Curl (fixes RHBZ#711261). Since ocaml-curl uses
 # -custom rather than ocamlmklib, automatic detection is infeasible.
 Requires:	curl-devel >= 7.12.0
+%requires_eq	ocaml-runtime
 ExcludeArch:	sparc64 s390 s390x
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
