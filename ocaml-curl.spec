@@ -12,7 +12,7 @@
 Summary:	OCaml Curl library (ocurl)
 Name:		ocaml-%{pkgname}
 Version:	0.7.1
-Release:	2
+Release:	3
 License:	MIT
 Group:		Libraries
 Source0:	https://forge.ocamlcore.org/frs/download.php/1400/ocurl-%{version}.tar.gz
