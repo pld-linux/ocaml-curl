@@ -1,13 +1,6 @@
 --- ocurl-0.7.1/Makefile.in~	2014-05-12 22:10:26.000000000 +0200
 +++ ocurl-0.7.1/Makefile.in	2015-07-25 14:46:23.107163100 +0200
-@@ -32,13 +32,13 @@
- TARGETS += curl_lwt.cmo
- endif
- ifeq (@OCAMLBEST@,opt)
--TARGETS += curl.cmxa
-+TARGETS += curl.cmxa curl.a
- ifneq (@OCAML_PKG_lwt@,no)
- TARGETS += curl_lwt.cmx
+@@ -32,10 +32,13 @@
  endif
  endif
  
@@ -16,6 +9,12 @@
  ifneq (@OCAML_PKG_lwt@,no)
  INSTALL_TARGETS += curl_lwt.cmi curl_lwt.mli curl_lwt.o
  endif
++ifeq (@OCAMLBEST@,opt)
++INSTALL_TARGETS += curl.a
++endif
+ 
+ all:
+ 		@$(MAKE) depend
 @@ -97,10 +97,10 @@
  		mkdir -p $(INSTALLDIR)
  		$(INSTALLDATA) curl.cma $(INSTALLDIR)

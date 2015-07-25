@@ -49,11 +49,7 @@ developing applications that use %{name}.
 
 %build
 %configure
-%{__make} -j1 all \
-%if %{with ocaml_opt}
-	OCBYTE="ocamlc.opt -g" \
-	OCOPT="ocamlopt.opt -g"
-%endif
+%{__make} -j1 all
 
 %install
 rm -rf $RPM_BUILD_ROOT
@@ -90,8 +86,6 @@ rm -rf $RPM_BUILD_ROOT
 %{_libdir}/ocaml/stublibs/dllcurl-helper.so.owner
 %if %{with ocaml_opt}
 %exclude %{_libdir}/ocaml/curl/*.a
-%exclude %{_libdir}/ocaml/curl/*.o
-%exclude %{_libdir}/ocaml/curl/*.cmx
 %exclude %{_libdir}/ocaml/curl/*.cmxa
 %endif
 %exclude %{_libdir}/ocaml/curl/*.mli
@@ -101,8 +95,6 @@ rm -rf $RPM_BUILD_ROOT
 %doc examples/*
 %if %{with ocaml_opt}
 %{_libdir}/ocaml/curl/*.a
-%{_libdir}/ocaml/curl/*.o
-%{_libdir}/ocaml/curl/*.cmx
 %{_libdir}/ocaml/curl/*.cmxa
 %endif
 %{_libdir}/ocaml/curl/*.mli
