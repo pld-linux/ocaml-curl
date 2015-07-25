@@ -1,0 +1,31 @@
+--- ocurl-0.7.1/Makefile.in~	2014-05-12 22:10:26.000000000 +0200
++++ ocurl-0.7.1/Makefile.in	2015-07-25 14:46:23.107163100 +0200
+@@ -32,13 +32,13 @@
+ TARGETS += curl_lwt.cmo
+ endif
+ ifeq (@OCAMLBEST@,opt)
+-TARGETS += curl.cmxa
++TARGETS += curl.cmxa curl.a
+ ifneq (@OCAML_PKG_lwt@,no)
+ TARGETS += curl_lwt.cmx
+ endif
+ endif
+ 
+-INSTALL_TARGETS = curl.a curl.cmi curl.mli $(TARGETS)
++INSTALL_TARGETS = curl.cmi curl.mli $(TARGETS)
+ ifneq (@OCAML_PKG_lwt@,no)
+ INSTALL_TARGETS += curl_lwt.cmi curl_lwt.mli curl_lwt.o
+ endif
+@@ -97,10 +97,10 @@
+ 		mkdir -p $(INSTALLDIR)
+ 		$(INSTALLDATA) curl.cma $(INSTALLDIR)
+ ifeq (@OCAMLBEST@,opt)
+-		$(INSTALLDATA) curl.cmxa $(INSTALLDIR)
++		$(INSTALLDATA) curl.cmxa curl.a $(INSTALLDIR)
+ endif
+ 		$(INSTALLDATA) curl.mli curl.cmi $(INSTALLDIR)
+-		$(INSTALLDATA) curl.a libcurl-helper.a $(INSTALLDIR)
++		$(INSTALLDATA) libcurl-helper.a $(INSTALLDIR)
+ endif
+ 
+ uninstall:

@@ -1,6 +1,11 @@
 #
 # Conditional build:
-%bcond_with	opt		# build opt
+%bcond_without	ocaml_opt	# skip building native optimized binaries (bytecode is always built)
+
+# not yet available on x32 (ocaml 4.02.1), remove when upstream will support it
+%ifnarch %{ix86} %{x8664} arm aarch64 ppc sparc sparcv9
+%undefine	with_ocaml_opt
+%endif
 
 %define debug_package %{nil}
 %define	pkgname	curl
@@ -12,6 +17,7 @@ License:	MIT
 Group:		Libraries
 Source0:	https://forge.ocamlcore.org/frs/download.php/1400/ocurl-%{version}.tar.gz
 # Source0-md5:	d138fd78538ae3bd008d6e9c2993d240
+Patch0:		ocaml_opt.patch
 URL:		http://ocurl.forge.ocamlcore.org/
 BuildRequires:	curl-devel >= 7.12.0
 BuildRequires:	gawk
@@ -39,11 +45,12 @@ developing applications that use %{name}.
 
 %prep
 %setup -q -n ocurl-%{version}
+%patch0 -p1
 
 %build
 %configure
 %{__make} -j1 all \
-%if %{with opt}
+%if %{with ocaml_opt}
 	OCBYTE="ocamlc.opt -g" \
 	OCOPT="ocamlopt.opt -g"
 %endif
@@ -52,6 +59,7 @@ developing applications that use %{name}.
 rm -rf $RPM_BUILD_ROOT
 export OCAMLFIND_DESTDIR=$RPM_BUILD_ROOT%{_libdir}/ocaml
 install -d $OCAMLFIND_DESTDIR $OCAMLFIND_DESTDIR/stublibs
+
 %{__make} install \
 	DESTDIR=$RPM_BUILD_ROOT
 
@@ -80,7 +88,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_libdir}/ocaml/curl
 %attr(755,root,root) %{_libdir}/ocaml/stublibs/dllcurl-helper.so
 %{_libdir}/ocaml/stublibs/dllcurl-helper.so.owner
-%if %{with opt}
+%if %{with ocaml_opt}
 %exclude %{_libdir}/ocaml/curl/*.a
 %exclude %{_libdir}/ocaml/curl/*.o
 %exclude %{_libdir}/ocaml/curl/*.cmx
@@ -91,7 +99,7 @@ rm -rf $RPM_BUILD_ROOT
 %files devel
 %defattr(644,root,root,755)
 %doc examples/*
-%if %{with opt}
+%if %{with ocaml_opt}
 %{_libdir}/ocaml/curl/*.a
 %{_libdir}/ocaml/curl/*.o
 %{_libdir}/ocaml/curl/*.cmx
