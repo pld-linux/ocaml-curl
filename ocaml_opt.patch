@@ -1,30 +1,27 @@
 --- ocurl-0.7.1/Makefile.in~	2014-05-12 22:10:26.000000000 +0200
 +++ ocurl-0.7.1/Makefile.in	2015-07-25 14:46:23.107163100 +0200
-@@ -32,10 +32,13 @@
+@@ -32,7 +32,10 @@
  endif
  endif
  
--INSTALL_TARGETS = curl.a curl.cmi curl.mli $(TARGETS)
+-INSTALL_TARGETS = curl$(EXT_LIB) curl.cmi curl.mli $(TARGETS)
 +INSTALL_TARGETS = curl.cmi curl.mli $(TARGETS)
- ifneq (@OCAML_PKG_lwt@,no)
- INSTALL_TARGETS += curl_lwt.cmi curl_lwt.mli curl_lwt.o
- endif
 +ifeq (@OCAMLBEST@,opt)
 +INSTALL_TARGETS += curl.a
 +endif
- 
- all:
- 		@$(MAKE) depend
+ ifeq (@OCAML_HAS_BIN_ANNOT@,yes)
+ INSTALL_TARGETS += curl.cmt curl.cmti
+ endif
 @@ -97,10 +97,10 @@
  		mkdir -p $(INSTALLDIR)
  		$(INSTALLDATA) curl.cma $(INSTALLDIR)
  ifeq (@OCAMLBEST@,opt)
 -		$(INSTALLDATA) curl.cmxa $(INSTALLDIR)
-+		$(INSTALLDATA) curl.cmxa curl.a $(INSTALLDIR)
++		$(INSTALLDATA) curl.cmxa curl$(EXT_LIB) $(INSTALLDIR)
  endif
  		$(INSTALLDATA) curl.mli curl.cmi $(INSTALLDIR)
--		$(INSTALLDATA) curl.a libcurl-helper.a $(INSTALLDIR)
-+		$(INSTALLDATA) libcurl-helper.a $(INSTALLDIR)
+-		$(INSTALLDATA) curl$(EXT_LIB) libcurl-helper$(EXT_LIB) $(INSTALLDIR)
++		$(INSTALLDATA) libcurl-helper$(EXT_LIB) $(INSTALLDIR)
  endif
  
  uninstall:
