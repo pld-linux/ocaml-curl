@@ -11,12 +11,12 @@
 %define	pkgname	curl
 Summary:	OCaml Curl library (ocurl)
 Name:		ocaml-%{pkgname}
-Version:	0.7.1
-Release:	5
+Version:	0.9.1
+Release:	1
 License:	MIT
 Group:		Libraries
-Source0:	https://forge.ocamlcore.org/frs/download.php/1400/ocurl-%{version}.tar.gz
-# Source0-md5:	d138fd78538ae3bd008d6e9c2993d240
+Source0:	https://github.com/ygrek/ocurl/releases/download/%{version}/ocurl-%{version}.tar.gz
+# Source0-md5:	1ff6b12803fa0c6e9a4358dd29b83910
 Patch0:		ocaml_opt.patch
 URL:		http://ocurl.forge.ocamlcore.org/
 BuildRequires:	curl-devel >= 7.12.0
@@ -45,7 +45,7 @@ developing applications that use %{name}.
 
 %prep
 %setup -q -n ocurl-%{version}
-%patch0 -p1
+#%patch0 -p1
 
 %build
 %configure
