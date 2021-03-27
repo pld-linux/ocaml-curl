@@ -12,7 +12,7 @@
 Summary:	OCaml Curl library (ocurl)
 Name:		ocaml-%{pkgname}
 Version:	0.9.1
-Release:	1
+Release:	2
 License:	MIT
 Group:		Libraries
 Source0:	https://github.com/ygrek/ocurl/releases/download/%{version}/ocurl-%{version}.tar.gz
@@ -71,9 +71,6 @@ archive(native) = "curl.cmxa"
 linkopts = ""
 EOF
 
-install -d $RPM_BUILD_ROOT%{_libdir}/ocaml/site-lib/curl
-ln -sr $RPM_BUILD_ROOT%{_libdir}/ocaml/{curl,site-lib/curl}/META
-
 # Make clean in the examples dir so our docs don't contain binaries.
 %{__make} -C examples clean
 
@@ -83,21 +80,24 @@ rm -rf $RPM_BUILD_ROOT
 %files
 %defattr(644,root,root,755)
 %doc COPYING
-%{_libdir}/ocaml/curl
+%dir %{_libdir}/ocaml/curl
+%{_libdir}/ocaml/curl/META
 %attr(755,root,root) %{_libdir}/ocaml/stublibs/dllcurl-helper.so
 %{_libdir}/ocaml/stublibs/dllcurl-helper.so.owner
 %if %{with ocaml_opt}
-%exclude %{_libdir}/ocaml/curl/*.a
-%exclude %{_libdir}/ocaml/curl/*.cmxa
+%{_libdir}/ocaml/curl/*.cma
+%attr(755,root,root) %{_libdir}/ocaml/curl/*.cmxs
 %endif
-%exclude %{_libdir}/ocaml/curl/*.mli
 
 %files devel
 %defattr(644,root,root,755)
 %doc examples/*
+%{_libdir}/ocaml/curl/*.cmi
+%{_libdir}/ocaml/curl/*.cmt
+%{_libdir}/ocaml/curl/*.cmti
 %if %{with ocaml_opt}
 %{_libdir}/ocaml/curl/*.a
+%{_libdir}/ocaml/curl/*.cmx
 %{_libdir}/ocaml/curl/*.cmxa
 %endif
 %{_libdir}/ocaml/curl/*.mli
-%{_libdir}/ocaml/site-lib/curl
