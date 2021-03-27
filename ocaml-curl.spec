@@ -84,19 +84,19 @@ rm -rf $RPM_BUILD_ROOT
 %{_libdir}/ocaml/curl/META
 %attr(755,root,root) %{_libdir}/ocaml/stublibs/dllcurl-helper.so
 %{_libdir}/ocaml/stublibs/dllcurl-helper.so.owner
-%if %{with ocaml_opt}
 %{_libdir}/ocaml/curl/*.cma
+%if %{with ocaml_opt}
 %attr(755,root,root) %{_libdir}/ocaml/curl/*.cmxs
 %endif
 
 %files devel
 %defattr(644,root,root,755)
 %doc examples/*
+%{_libdir}/ocaml/curl/*.a
 %{_libdir}/ocaml/curl/*.cmi
 %{_libdir}/ocaml/curl/*.cmt
 %{_libdir}/ocaml/curl/*.cmti
 %if %{with ocaml_opt}
-%{_libdir}/ocaml/curl/*.a
 %{_libdir}/ocaml/curl/*.cmx
 %{_libdir}/ocaml/curl/*.cmxa
 %endif
