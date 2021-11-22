@@ -1,6 +1,11 @@
---- ocurl-0.7.1/Makefile.in~	2014-05-12 22:10:26.000000000 +0200
-+++ ocurl-0.7.1/Makefile.in	2015-07-25 14:46:23.107163100 +0200
-@@ -32,7 +32,10 @@
+--- ocurl-0.9.1/Makefile.in.orig	2020-02-13 23:53:48.000000000 +0100
++++ ocurl-0.9.1/Makefile.in	2021-11-22 09:01:46.344220377 +0100
+@@ -41,16 +41,19 @@
+ ifeq (@OCAMLBEST@,opt)
+ TARGETS += curl.cmxa curl.cmx curl.cmxs
+ ifneq (@OCAML_PKG_lwt_unix@,no)
+-TARGETS += curl_lwt.cmx curl_lwt.cmxs
++TARGETS += curl_lwt.cmx curl_lwt.cmxs curl_lwt$(EXT_OBJ)
  endif
  endif
  
@@ -12,7 +17,13 @@
  ifeq (@OCAML_HAS_BIN_ANNOT@,yes)
  INSTALL_TARGETS += curl.cmt curl.cmti
  endif
-@@ -97,10 +97,10 @@
+ ifneq (@OCAML_PKG_lwt_unix@,no)
+-INSTALL_TARGETS += curl_lwt.cmi curl_lwt.mli curl_lwt$(EXT_OBJ)
++INSTALL_TARGETS += curl_lwt.cmi curl_lwt.mli
+ ifeq (@OCAML_HAS_BIN_ANNOT@,yes)
+ INSTALL_TARGETS += curl_lwt.cmt curl_lwt.cmti
+ endif
+@@ -134,10 +137,10 @@
  		mkdir -p $(INSTALLDIR)
  		$(INSTALLDATA) curl.cma $(INSTALLDIR)
  ifeq (@OCAMLBEST@,opt)

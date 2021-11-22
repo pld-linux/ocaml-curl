@@ -12,7 +12,7 @@
 Summary:	OCaml Curl library (ocurl)
 Name:		ocaml-%{pkgname}
 Version:	0.9.1
-Release:	3
+Release:	4
 License:	MIT
 Group:		Libraries
 Source0:	https://github.com/ygrek/ocurl/releases/download/%{version}/ocurl-%{version}.tar.gz
@@ -23,6 +23,8 @@ BuildRequires:	curl-devel >= 7.12.0
 BuildRequires:	gawk
 BuildRequires:	ocaml >= 3.10.0-7
 BuildRequires:	ocaml-findlib-devel
+BuildRequires:	ocaml-lwt-devel
+BuildRequires:	ocaml-lwt-ppx-devel
 # Explicitly require Curl (fixes RHBZ#711261). Since ocaml-curl uses
 # -custom rather than ocamlmklib, automatic detection is infeasible.
 Requires:	curl-devel >= 7.12.0
@@ -94,6 +96,7 @@ rm -rf $RPM_BUILD_ROOT
 %doc examples/*
 %{_libdir}/ocaml/curl/*.a
 %{_libdir}/ocaml/curl/*.cmi
+%{_libdir}/ocaml/curl/*.cmo
 %{_libdir}/ocaml/curl/*.cmt
 %{_libdir}/ocaml/curl/*.cmti
 %if %{with ocaml_opt}
