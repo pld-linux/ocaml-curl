@@ -10,6 +10,7 @@
 %define debug_package %{nil}
 %define	pkgname	curl
 Summary:	OCaml Curl library (ocurl)
+Summary(pl.UTF-8):	Biblioteka Curl dla OCamla (ocurl)
 Name:		ocaml-%{pkgname}
 Version:	0.9.1
 Release:	4
@@ -36,14 +37,23 @@ BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 The Ocaml Curl Library (Ocurl) is an interface library for the
 programming language Ocaml to the networking library libcurl.
 
+%description -l pl.UTF-8
+Biblioteka Ocaml Curl (Ocurl) to biblioteka interfejsu języka
+programowania Ocaml do biblioteki sieciowe libcurl.
+
 %package devel
-Summary:	Development files for %{name}
+Summary:	OCaml Curl library (ocurl) - development part
+Summary(pl.UTF-8):	Biblioteka Curl dla OCamla (ocurl) - część programistyczna
 Group:		Development/Libraries
 Requires:	%{name} = %{version}-%{release}
 
 %description devel
-The %{name}-devel package contains libraries and signature files for
-developing applications that use %{name}.
+This package contains libraries and signature files for developing
+applications that use OCaml Curl library.
+
+%description devel -l pl.UTF-8
+Ten pakiet zawiera biblioteki i pliki sygnatur do tworzenia aplikacji
+z użyciem biblioteki OCamla Curl.
 
 %prep
 %setup -q -n ocurl-%{version}
@@ -55,6 +65,7 @@ developing applications that use %{name}.
 
 %install
 rm -rf $RPM_BUILD_ROOT
+
 export OCAMLFIND_DESTDIR=$RPM_BUILD_ROOT%{_libdir}/ocaml
 install -d $OCAMLFIND_DESTDIR $OCAMLFIND_DESTDIR/stublibs
 
