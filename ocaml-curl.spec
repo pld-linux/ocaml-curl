@@ -58,6 +58,35 @@ applications that use OCaml Curl library.
 Ten pakiet zawiera biblioteki i pliki sygnatur do tworzenia aplikacji
 z użyciem biblioteki OCamla Curl.
 
+%package lwt
+Summary:	Lwt support for OCaml Curl library
+Summary(pl.UTF-8):	Obsługa Lwt do biblioteki OCamla Curl
+Group:		Libraries
+Requires:	%{name} = %{version}-%{release}
+Requires:	ocaml-lwt
+
+%description lwt
+Lwt support for OCaml Curl library.
+
+%description lwt -l pl.UTF-8
+Obsługa Lwt do biblioteki OCamla Curl.
+
+%package lwt-devel
+Summary:	Lwt support for OCaml Curl library - development part
+Summary(pl.UTF-8):	Obsługa Lwt do biblioteki OCamla Curl - część programistyczna
+Group:		Development/Libraries
+Requires:	%{name}-devel = %{version}-%{release}
+Requires:	%{name}-lwt = %{version}-%{release}
+Requires:	ocaml-lwt-devel
+
+%description lwt-devel
+This package contains libraries and signature files for developing
+applications that use OCaml curl-lwt library.
+
+%description lwt-devel -l pl.UTF-8
+Ten pakiet zawiera biblioteki i pliki sygnatur do tworzenia aplikacji
+z użyciem biblioteki OCamla curl-lwt.
+
 %prep
 %setup -q -n ocurl-%{version}
 %patch0 -p1
@@ -77,15 +106,6 @@ install -d $OCAMLFIND_DESTDIR $OCAMLFIND_DESTDIR/stublibs
 %{__make} install \
 	DESTDIR=$RPM_BUILD_ROOT
 
-cat > $RPM_BUILD_ROOT%{_libdir}/ocaml/curl/META <<EOF
-requires = ""
-version = "%{version}"
-directory = "+curl"
-archive(byte) = "curl.cma"
-archive(native) = "curl.cmxa"
-linkopts = ""
-EOF
-
 # useless in rpm
 %{__rm} $RPM_BUILD_ROOT%{_libdir}/ocaml/stublibs/*.so.owner
 
@@ -102,24 +122,41 @@ rm -rf $RPM_BUILD_ROOT
 %doc COPYING
 %dir %{_libdir}/ocaml/curl
 %{_libdir}/ocaml/curl/META
-%{_libdir}/ocaml/curl/*.cma
+%{_libdir}/ocaml/curl/curl.cma
 %if %{with ocaml_opt}
-%attr(755,root,root) %{_libdir}/ocaml/curl/*.cmxs
+%attr(755,root,root) %{_libdir}/ocaml/curl/curl.cmxs
 %endif
 %attr(755,root,root) %{_libdir}/ocaml/stublibs/dllcurl-helper.so
 
 %files devel
 %defattr(644,root,root,755)
 %{_libdir}/ocaml/curl/libcurl-helper.a
-%{_libdir}/ocaml/curl/*.cmi
-%{_libdir}/ocaml/curl/*.cmo
-%{_libdir}/ocaml/curl/*.cmt
-%{_libdir}/ocaml/curl/*.cmti
-%{_libdir}/ocaml/curl/*.mli
+%{_libdir}/ocaml/curl/curl.cmi
+%{_libdir}/ocaml/curl/curl.cmt
+%{_libdir}/ocaml/curl/curl.cmti
+%{_libdir}/ocaml/curl/curl.mli
 %if %{with ocaml_opt}
-%{_libdir}/ocaml/curl/curl*.a
-%{_libdir}/ocaml/curl/*.cmx
-%{_libdir}/ocaml/curl/*.cmxa
-%{_libdir}/ocaml/curl/*.o
+%{_libdir}/ocaml/curl/curl.a
+%{_libdir}/ocaml/curl/curl.cmx
+%{_libdir}/ocaml/curl/curl.cmxa
 %endif
 %{_examplesdir}/%{name}-%{version}
+
+%files lwt
+%defattr(644,root,root,755)
+# without ocaml_opt: just stub package to collect dependencies
+%if %{with ocaml_opt}
+%attr(755,root,root) %{_libdir}/ocaml/curl/curl_lwt.cmxs
+%endif
+
+%files lwt-devel
+%defattr(644,root,root,755)
+%{_libdir}/ocaml/curl/curl_lwt.cmi
+%{_libdir}/ocaml/curl/curl_lwt.cmo
+%{_libdir}/ocaml/curl/curl_lwt.cmt
+%{_libdir}/ocaml/curl/curl_lwt.cmti
+%{_libdir}/ocaml/curl/curl_lwt.mli
+%if %{with ocaml_opt}
+%{_libdir}/ocaml/curl/curl_lwt.cmx
+%{_libdir}/ocaml/curl/curl_lwt.o
+%endif
