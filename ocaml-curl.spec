@@ -94,6 +94,8 @@ EOF
 
 # Make clean in the examples dir so our docs don't contain binaries.
 %{__make} -C examples clean
+install -d $RPM_BUILD_ROOT%{_examplesdir}/%{name}-%{version}
+cp -p examples/* $RPM_BUILD_ROOT%{_examplesdir}/%{name}-%{version}
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -111,7 +113,6 @@ rm -rf $RPM_BUILD_ROOT
 
 %files devel
 %defattr(644,root,root,755)
-%doc examples/*
 %{_libdir}/ocaml/curl/libcurl-helper.a
 %{_libdir}/ocaml/curl/*.cmi
 %{_libdir}/ocaml/curl/*.cmo
@@ -124,3 +125,4 @@ rm -rf $RPM_BUILD_ROOT
 %{_libdir}/ocaml/curl/*.cmxa
 %{_libdir}/ocaml/curl/*.o
 %endif
+%{_examplesdir}/%{name}-%{version}
