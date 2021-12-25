@@ -13,14 +13,15 @@ Summary:	OCaml Curl library (ocurl)
 Summary(pl.UTF-8):	Biblioteka Curl dla OCamla (ocurl)
 Name:		ocaml-curl
 Version:	0.9.1
-Release:	4
+Release:	5
 License:	MIT
 Group:		Libraries
+#Source0Download: https://github.com/ygrek/ocurl/releases
 Source0:	https://github.com/ygrek/ocurl/releases/download/%{version}/ocurl-%{version}.tar.gz
 # Source0-md5:	1ff6b12803fa0c6e9a4358dd29b83910
 Patch0:		ocaml_opt.patch
 Patch1:		%{name}-sh.patch
-URL:		http://ocurl.forge.ocamlcore.org/
+URL:		https://ygrek.org/p/ocurl/
 BuildRequires:	autoconf >= 2.50
 BuildRequires:	curl-devel >= 7.28.0
 BuildRequires:	gawk
