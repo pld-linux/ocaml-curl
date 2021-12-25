@@ -77,9 +77,6 @@ install -d $OCAMLFIND_DESTDIR $OCAMLFIND_DESTDIR/stublibs
 %{__make} install \
 	DESTDIR=$RPM_BUILD_ROOT
 
-# Install curl.mli
-cp -p curl.mli $OCAMLFIND_DESTDIR/curl
-
 cat > $RPM_BUILD_ROOT%{_libdir}/ocaml/curl/META <<EOF
 requires = ""
 version = "%{version}"
