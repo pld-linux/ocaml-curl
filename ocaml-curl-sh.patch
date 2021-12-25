@@ -1,0 +1,11 @@
+--- ocurl-0.9.1/configure.ac.orig	2020-02-13 23:53:48.000000000 +0100
++++ ocurl-0.9.1/configure.ac	2021-12-25 08:16:53.510972611 +0100
+@@ -49,7 +49,7 @@ AS_IF([test "$OCAMLFIND" == "no"],
+ [$OCAMLFIND c -linkpkg -package compiler-libs.common print_ext.ml -o print_ext])
+ 
+ AC_MSG_CHECKING([for bin-annot support])
+-AS_IF([test "$OCAMLVERSION" \> "4"],[OCAML_HAS_BIN_ANNOT=yes],[OCAML_HAS_BIN_ANNOT=no])
++AS_IF([echo "$OCAMLVERSION" | grep -q '^[[4-9]]'],[OCAML_HAS_BIN_ANNOT=yes],[OCAML_HAS_BIN_ANNOT=no])
+ AC_MSG_RESULT([$OCAML_HAS_BIN_ANNOT])
+ 
+ AC_SUBST(OCAML_HAS_BIN_ANNOT)

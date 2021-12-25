@@ -1,17 +1,17 @@
 #
 # Conditional build:
-%bcond_without	ocaml_opt	# skip building native optimized binaries (bytecode is always built)
+%bcond_without	ocaml_opt	# native optimized binaries (bytecode is always built)
 
-# not yet available on x32 (ocaml 4.02.1), remove when upstream will support it
-%ifnarch %{ix86} %{x8664} arm aarch64 ppc sparc sparcv9
+# not yet available on x32 (ocaml 4.02.1), update when upstream will support it
+%ifnarch %{ix86} %{x8664} %{arm} aarch64 ppc sparc sparcv9
 %undefine	with_ocaml_opt
 %endif
 
 %define debug_package %{nil}
-%define	pkgname	curl
+
 Summary:	OCaml Curl library (ocurl)
 Summary(pl.UTF-8):	Biblioteka Curl dla OCamla (ocurl)
-Name:		ocaml-%{pkgname}
+Name:		ocaml-curl
 Version:	0.9.1
 Release:	4
 License:	MIT
@@ -19,16 +19,19 @@ Group:		Libraries
 Source0:	https://github.com/ygrek/ocurl/releases/download/%{version}/ocurl-%{version}.tar.gz
 # Source0-md5:	1ff6b12803fa0c6e9a4358dd29b83910
 Patch0:		ocaml_opt.patch
+Patch1:		%{name}-sh.patch
 URL:		http://ocurl.forge.ocamlcore.org/
-BuildRequires:	curl-devel >= 7.12.0
+BuildRequires:	autoconf >= 2.50
+BuildRequires:	curl-devel >= 7.28.0
 BuildRequires:	gawk
 BuildRequires:	ocaml >= 3.10.0-7
 BuildRequires:	ocaml-findlib-devel
 BuildRequires:	ocaml-lwt-devel
 BuildRequires:	ocaml-lwt-ppx-devel
+BuildRequires:	pkgconfig
 # Explicitly require Curl (fixes RHBZ#711261). Since ocaml-curl uses
 # -custom rather than ocamlmklib, automatic detection is infeasible.
-Requires:	curl-devel >= 7.12.0
+Requires:	curl-devel >= 7.28.0
 %requires_eq	ocaml-runtime
 ExcludeArch:	sparc64 s390 s390x
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
@@ -58,8 +61,10 @@ z użyciem biblioteki OCamla Curl.
 %prep
 %setup -q -n ocurl-%{version}
 %patch0 -p1
+%patch1 -p1
 
 %build
+%{__autoconf}
 %configure
 %{__make} -j1 all
 
@@ -84,6 +89,9 @@ archive(native) = "curl.cmxa"
 linkopts = ""
 EOF
 
+# useless in rpm
+%{__rm} $RPM_BUILD_ROOT%{_libdir}/ocaml/stublibs/*.so.owner
+
 # Make clean in the examples dir so our docs don't contain binaries.
 %{__make} -C examples clean
 
@@ -95,23 +103,24 @@ rm -rf $RPM_BUILD_ROOT
 %doc COPYING
 %dir %{_libdir}/ocaml/curl
 %{_libdir}/ocaml/curl/META
-%attr(755,root,root) %{_libdir}/ocaml/stublibs/dllcurl-helper.so
-%{_libdir}/ocaml/stublibs/dllcurl-helper.so.owner
 %{_libdir}/ocaml/curl/*.cma
 %if %{with ocaml_opt}
 %attr(755,root,root) %{_libdir}/ocaml/curl/*.cmxs
 %endif
+%attr(755,root,root) %{_libdir}/ocaml/stublibs/dllcurl-helper.so
 
 %files devel
 %defattr(644,root,root,755)
 %doc examples/*
-%{_libdir}/ocaml/curl/*.a
+%{_libdir}/ocaml/curl/libcurl-helper.a
 %{_libdir}/ocaml/curl/*.cmi
 %{_libdir}/ocaml/curl/*.cmo
 %{_libdir}/ocaml/curl/*.cmt
 %{_libdir}/ocaml/curl/*.cmti
+%{_libdir}/ocaml/curl/*.mli
 %if %{with ocaml_opt}
+%{_libdir}/ocaml/curl/curl*.a
 %{_libdir}/ocaml/curl/*.cmx
 %{_libdir}/ocaml/curl/*.cmxa
+%{_libdir}/ocaml/curl/*.o
 %endif
-%{_libdir}/ocaml/curl/*.mli
